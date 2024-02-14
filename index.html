@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Add Google Fonts link for the desired font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-hFwRAjKd4DQ7Wk4Wg9Ryytm1eqz5pHpbFirOerZNfWz8eSyj3PZScNuG6gDf3HpUIt+hX7+VV+VBhrhS/BTbCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* You can customize your styles here */
+
+        .dropdown {
+            display: none;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        /* Change font for the entire page */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Remove the word "More" and show only the dropdown arrow */
+        .group button span {
+            display: none;
+        }
+
+        /* Style the dropdown arrow */
+        .group button svg {
+            fill: currentColor;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .group.active button svg {
+            transform: rotate(180deg);
+        }
+
+        /* Square hover effect */
+        nav a:hover {
+            padding: 0.5rem;
+            border: 2px solid white;
+            border-radius: 0.5rem;
+        }
+
+        /* Nigeria's green background for the navbar */
+        nav {
+            background-color: #008751; /* Nigeria's green color */
+        }
+
+        /* Adjust the size of the dropdown box */
+        #dropdown-menu {
+            min-width: 160px; /* Adjust this value as needed */
+            z-index: 100; /* Ensure dropdown menu appears above other content */
+        }
+
+        .hero-section {
+            height: 500px; /* Adjust this value as needed */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black background */
+            border-radius: 10px; /* Rounded corners */
+            max-width: 80%; /* Adjust the maximum width as needed */
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* Box shadow for the pop-out effect */
+        }
+
+        .hero-text {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-text p {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+        }
+
+          /* Responsive adjustments */
+          @media (max-width: 768px) {
+            .hero-text-container {
+                padding: 1rem;
+                max-width: 90%;
+            }
+
+            .hero-text {
+                font-size: 2rem;
+            }
+
+            .hero-text p {
+                font-size: 1.25rem;
+            }
+        }
+
+        .about-section {
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 0;
+            background-image: url('about-background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #008751;
+        }
+
+        .about-content {
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black background */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .about-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .apply-link {
+            text-decoration: none;
+            color: white;
+            background-color: #2D7D4C; /* Darker green */
+            padding: 1rem 2rem;
+            border-radius: 5px;
+        }
+
+        .apply-link:hover {
+            background-color: #005727; /* Dark green on hover */
+        }
+
+        .about-card {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            flex: 1;
+            padding: 1rem;
+            background-color: #f3f4f6; /* Light gray */
+            border-radius: 10px;
+            margin-right: 1rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .card:last-child {
+            margin-right: 0;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: red;
+        }
+
+        .card-content {
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .card:hover {
+            background-color: #008751; /* Dark green on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .flex {
+                flex-direction: column;
+            }
+
+            .card {
+                flex: none;
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+         .accordion-item {
+            border-bottom: 1px solid #E5E7EB; /* Light gray */
+        }
+
+        .accordion-title {
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333; /* Dark gray */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .accordion-title:hover {
+            color: #008751; /* Dark green on hover */
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* Adjust as needed */
+            transition: max-height 0.3s ease;
+        }
+
+         /* Responsive adjustments */
+         @media (max-width: 768px) {
+            .accordion-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f3f4f6; /* Light gray */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333; /* Dark gray */
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666; /* Medium gray */
+        }
+        .form p{
+            color: #008751;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .send-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: #008751; /* Dark green */
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #005727; /* Dark green on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1rem;
+            }
+
+            .form-label {
+                font-size: 1rem;
+            }
+
+            .form-input {
+                font-size: 0.9rem;
+            }
+
+            .form-note {
+                font-size: 0.8rem;
+            }
+
+            .send-button {
+                font-size: 1rem;
+            }
+        }
+
+        .icon img {
+        width: 50px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .footer {
+    background-color: #008751; /* Nigerian green */
+}
+
+.footer i {
+    transition: color 0.3s ease;
+}
+
+.footer i:hover {
+    color: white;
+}
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <nav class="p-4 mx-auto">
+        <div class="container flex justify-between items-center">
+            <div class="text-white text-lg font-semibold">Your Logo / Brand</div>
+
+            <div class="flex-grow hidden md:flex justify-center space-x-4">
+                <a href="#" class="text-white hover:text-gray-300 transition duration-300">Home</a>
+                <a href="#" class="text-white hover:text-gray-300 transition duration-300">Technology</a>
+                <a href="#" class="text-white hover:text-gray-300 transition duration-300">Education</a>
+
+                <!-- Dropdown Trigger -->
+                <div id="dropdown-container" class="group relative">
+                    <button id="dropdown-toggle" class="text-white focus:outline-none">
+                        <span class="sr-only">Toggle Dropdown</span>
+                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div id="dropdown-menu" class="dropdown absolute hidden bg-white border mt-2 min-w-32 rounded-md shadow-lg">
+                        <a href="#" class="block px-4 py-2 text-gray-800">About Us</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800">Endorsement</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800">Funding</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800">Governance</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800">Water Programmes</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800">Climate Action</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Icon -->
+            <div class="md:hidden">
+                <button id="mobile-menu-toggle" class="text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden dropdown">
+        <a href="#" class="block px-4 py-2 text-gray-800">Home</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Technology</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Education</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">About Us</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Endorsement</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Funding</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Governance</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Water Programmes</a>
+        <a href="#" class="block px-4 py-2 text-gray-800">Climate Action</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-slide bg-cover bg-center" style="background-image: url('development.jpg');"></div>
+        <div class="hero-slide bg-cover bg-center" style="background-image: url('flag.jpg');"></div>
+        <div class="hero-slide bg-cover bg-center" style="background-image: url('nigeria.jpeg');"></div>
+        <div class="hero-text-container">
+            <div class="hero-text">ADVANCING DEVELOPMENT OF AFRICA FOR AFRICANS (ADAFA)</div>
+        </div>
+    </section>
+
+    <!--  -->
+
+       <!-- About Section -->
+    <section class="about-section">
+        <div class="container mx-auto">
+            <div class="about-content">
+                <h2>About Us</h2>
+                <a href="#" class="apply-link">Adaaverse Climatic Action Fund, Apply Here</a>
+                <div class="about-card">
+                    <h3>Our Mission</h3>
+                    <p>Advancing Development in Africa for Africans(ADAFA) is a driver of change in Africa along side ADAAVERSE which extends developmental effect globally..</p>
+                    <p>We are focused on six major aspects: Governance, Funding, Education, Water, Climate Action, and Technology as structured by Adafa, Government, NonGovernmental Organizations, and Companies. The organization was necessitated due to the social exclusion of nearly 95% of Africans with few, adequately educated, have access to clean water, opportued to exercise their human rights. We endorse companies, organizations and individuals business (s) in Africa, that are investing some percentage of business earnings to humanitarian activities hence promoting societal development in its host country or continent. This will solve some of the social and economic challenges people face locally and globally. Adafa have its operational headquarters in Nigeria. Organizations and companies in the international communities that support the black community and Africa at large will be endorsed by adaaverse, adaaverse covers businesses in the whole universe. Endorsement from ADAFA or ADAAVERSE is aimed at promoting the businesses of companies, organizations and agencies, after complete verification has been made to ascertain the credibility of the organisation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Cards Section -->
+    <section class="container mx-auto p-4">
+        <div class="flex justify-between">
+            <div class="card">
+                <h2 class="card-title">VISION</h2>
+                <p class="card-content">Advancing development in Africa.</p>
+            </div>
+            <div class="card">
+                <h2 class="card-title">MISSION</h2>
+                <p class="card-content">Exploring opportunities for development in Africa.</p>
+            </div>
+            <div class="card">
+                <h2 class="card-title">MISSION GUIDE</h2>
+                <p class="card-content">a. Technology|b. Education|c. Climate Action|d. Water|e. Governance|f. Funding</p>
+            </div>
+        </div>
+        <br>
+        <div class="flex justify-between again">
+            <div class="card">
+                <div class="icon">
+                    <img src="Technology.png" alt="Education Icon"> <!-- Replace "education-icon.png" with the actual filename of the icon you downloaded -->
+                </div>
+                <h2 class="card-title">TECHNOLOGY</h2>
+                <p class="card-content">We are connecting Africans across continents through technology. The relentless spread of tech-evolution, sensors, artificial intelligence, and automation is driving a global revolution for development. Despite various barriers, Africa can be an active participant in creating and adapting to emerging technologies that facilitates growth.</p>
+            </div>
+            <div class="card">
+                <div class="icon">
+                    <img src="endorsement.png" alt="Education Icon"> <!-- Replace "education-icon.png" with the actual filename of the icon you downloaded -->
+                </div>
+                <h2 class="card-title">ENDORSEMENT</h2>
+                <p class="card-content">We are identifying and endorsing companies, organizations and individuals business (s) in Africa, that are using some percentage of theirbusiness profit for humanitarian activities. Hence promoting societal development in its host country in an effort to solve some of the social and economic challenges people face in Africa. Organizations and companies in the international communities that support black communities and Africa at large can be endorsed by Adaaverse</p>
+            </div>
+            <div class="card">
+                <div class="icon">
+                    <img src="education.png" alt="Education Icon"> <!-- Replace "education-icon.png" with the actual filename of the icon you downloaded -->
+                </div>
+                <h2 class="card-title">EDUCATION</h2>
+                <p class="card-content">Education is a key driver to transforming lives, build peace, eradicate poverty and drive sustainable development. It breaks all citizens from the shackles of ignorance, poverty and disempowerment, and endow them with the capacity. However, Africa has the highest rates of education exclusion. Indeed 97.5 million children and adolescents are out of school in Africa.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container mx-auto p-4">
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-title">TECHNOLOGY</div>
+                <div class="accordion-content">
+                    <p>We are connecting Africans across continents through technology. The relentless spread of tech-evolution, sensors, artificial intelligence, and automation is driving a global revolution for development. Despite various barriers, Africa can be an active participant in creating and adapting to emerging technologies that facilitates growth.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">ENDORSEMENT</div>
+                <div class="accordion-content">
+                    <p>We are identifying and endorsing companies, organizations and individuals business (s) in Africa, that are using some percentage of theirbusiness profit for humanitarian activities. Hence promoting societal development in its host country in an effort to solve some of the social and economic challenges people face in Africa. Organizations and companies in the international communities that support black communities and Africa at large can be endorsed by Adaaverse</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">FUNDING</div>
+                <div class="accordion-content">
+                    <p>we provide fundings for Non-profit Organization and students' based organizations who are working to promote:.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">GOVERNANCE</div>
+                <div class="accordion-content">
+                    <p>Transparency, accountability and responsive governance in Africa plays a crucial role in unlocking the continent’s potential for investment and sustainable growth. Effective governance and a strong social contract are critical to the successful implementation of the ADAFA strategy in creating an enabling business environment and social inclusion which can facilitate trade, promote economic development and social stability in Africa</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">WATER PROGRAMMES</div>
+                <div class="accordion-content">
+                    <p>Water is not only the most basic of need, but also at the centre of sustainable development and essential for poverty eradication. Water is intimately linked to health, agriculture, energy and biodiversity.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">EDUCATION</div>
+                <div class="accordion-content">
+                    <p>Education is a key driver to transforming lives, build peace, eradicate poverty and drive sustainable development. It breaks all citizens from the shackles of ignorance, poverty and disempowerment, and endow them with the capacity. However, Africa has the highest rates of education exclusion. Indeed 97.5 million children and adolescents are out of school in Africa.</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">CLIMATE ACTION</div>
+                <div class="accordion-content">
+                    <p>Climate change is a real and undeniable threat to our entire civilization. Africa has the world's lowest per capita greenhouse gas emissions, but is one of the hardest hit continents in terms of climate change impacts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Form Section -->
+      <section class="container mx-auto p-4">
+        <div class="form-container">
+            <form>
+                <p>APPLICATION FOR ENDORSEMENT</p>
+                <div class="form-group">
+                    <label for="company-name" class="form-label">Name of Company</label>
+                    <input type="text" id="company-name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="sector" class="form-label">Sector</label>
+                    <input type="text" id="sector" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cac-reg-no" class="form-label">CAC Reg No</label>
+                    <input type="text" id="cac-reg-no" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" id="address" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone No</label>
+                    <input type="tel" id="phone" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name" class="form-label">Name of Applicant</label>
+                    <input type="text" id="applicant-name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="designation" class="form-label">Designation</label>
+                    <input type="text" id="designation" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="director-name" class="form-label">Name of Director</label>
+                    <input type="text" id="director-name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="director-phone" class="form-label">Phone No of Director</label>
+                    <input type="tel" id="director-phone" class="form-input" required>
+                </div>
+                <button type="submit" class="send-button">Send</button>
+            </form>
+            <p class="form-note">NOTE: After complete verification of your work or support for humanitarian works, you will be endorsed by ADAAVERSE. Furthermore, you have to take the responsibility of checking your email frequently, communication will be via email.</p>
+        </div>
+
+        <div class="additional-content">
+            <h2>Our Address</h2>
+            <p>1st Floor Murjanatu House, No 1, Zambezi Crescent, off Aguyi, Ironsi Street, Maitama, Abuja (FCT), Nigeria.</p>
+            <p>Email: info@adaaverse.org</p>
+            <p>Phone: +234-9166491587</p>
+        </div>
+    </section>
+
+    <footer class="footer bg-green-700 text-white py-8">
+        <div class="container mx-auto text-center">
+            <!-- Logo and "Stay Connected" -->
+            <div class="mb-4">
+                <!-- Your logo image goes here -->
+                <img src="your-logo.png" alt="Your Logo" class="mx-auto mb-2">
+                <p class="text-lg font-bold">Stay Connected</p>
+            </div>
+    
+            <!-- Social Media Icons -->
+            <div class="mb-4">
+                <a href="https://facebook.com"><i class="fab fa-facebook-square text-3xl mx-2"></i></a>
+                <a href="https://twitter.com"><i class="fab fa-twitter-square text-3xl mx-2"></i></a>
+                <a href="https://instagram.com"><i class="fab fa-instagram-square text-3xl mx-2"></i></a>
+            </div>
+    
+            <!-- Copyright Text -->
+            <p>© @2023 adaaverse.org All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+
+
+    <!-- JavaScript code -->
+    <script>
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+            const title = item.querySelector('.accordion-title');
+            const content = item.querySelector('.accordion-content');
+
+            title.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+
+                // Remove 'active' class from all accordion items
+                accordionItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                if (!isActive) {
+                    // Expand clicked item
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // JavaScript for fading effect
+        window.addEventListener('scroll', function() {
+            var aboutContent = document.querySelector('.about-content');
+            var windowHeight = window.innerHeight;
+            var scrollY = window.scrollY || window.pageYOffset;
+
+            if (aboutContent.getBoundingClientRect().top < windowHeight * 0.75) {
+                aboutContent.style.opacity = '1';
+            }
+        });
+    </script>
+
+    <script>
+        // JavaScript for automatic slideshow
+        var slides = document.querySelectorAll('.hero-slide');
+        var currentSlide = 0;
+        var slideInterval = setInterval(nextSlide, 2000); // Change slide every 2 seconds
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+    </script>
+
+    <script>
+        // Toggle mobile menu visibility
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        });
+
+        // Toggle dropdown visibility on hover and keep it when inside
+        var dropdownContainer = document.getElementById('dropdown-container');
+        var dropdownMenu = document.getElementById('dropdown-menu');
+
+        var hoveringDropdown = false;
+
+        dropdownContainer.addEventListener('mouseover', function() {
+            dropdownMenu.classList.add('active');
+            hoveringDropdown = true;
+        });
+
+        dropdownContainer.addEventListener('mouseout', function(e) {
+            if (!dropdownMenu.contains(e.relatedTarget)) {
+                dropdownMenu.classList.remove('active');
+                hoveringDropdown = false;
+            }
+        });
+
+        // Keep dropdown visible when inside it
+        dropdownMenu.addEventListener('mouseover', function() {
+            dropdownMenu.classList.add('active');
+            hoveringDropdown = true;
+        });
+
+        dropdownMenu.addEventListener('mouseout', function(e) {
+            if (!dropdownContainer.contains(e.relatedTarget)) {
+                dropdownMenu.classList.remove('active');
+                hoveringDropdown = false;
+            }
+        });
+
+        // // Hide dropdown on document click if not hovering over dropdown
+         document.addEventListener('click', function(e) {
+             if (!hoveringDropdown && !dropdownContainer.contains(e.target)) {
+                 dropdownMenu.classList.remove('active');
+             }
+        });
+
+        // Toggle dropdown visibility on click
+        document.getElementById('dropdown-toggle').addEventListener('click', function() {
+            dropdownMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+
+<!-- #<a href="https://www.flaticon.com/free-icons/technology" title="technology icons">Technology icons created by Freepik - Flaticon</a> -->
+ <!-- <a href="https://www.flaticon.com/free-icons/endorsement" title="endorsement icons">Endorsement icons created by HAJICON - Flaticon</a> -->
+ <!-- <a href="https://www.flaticon.com/free-icons/education" title="education icons">Education icons created by Freepik - Flaticon</a> -->
